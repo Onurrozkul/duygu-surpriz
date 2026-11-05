@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duygu ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(ellipse at bottom, #21102f, #050510 70%);
+    color: white;
+    font-family: Georgia, serif;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.intro {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    background: radial-gradient(ellipse at bottom, #25102f, #050510 70%);
+    transition: opacity 1.5s;
+}
+
+.intro h1 {
+    font-size: clamp(38px, 8vw, 75px);
+    color: #ffd6ed;
+    text-shadow: 0 0 30px #ff4da6;
+    margin-bottom: 22px;
+}
+
+.intro p {
+    color: #e5cce8;
+    font-size: 19px;
+    margin-bottom: 35px;
+}
+
+button {
+    background: linear-gradient(135deg, #ff4d9d, #a64dff);
+    border: none;
+    color: white;
+    padding: 17px 38px;
+    border-radius: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 0 30px #ff4d9d66;
+}
+
+button:hover {
+    transform: scale(1.06);
+}
+
+/* Final mesaj */
+
+.final-message {
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    opacity: 0;
+    transition: opacity 2s;
+    pointer-events: none;
+}
+
+.final-message h2 {
+    color: #ffb9dc;
+    font-size: clamp(30px, 6vw, 55px);
+    text-shadow: 0 0 25px #ff4da6;
+    margin-bottom: 35px;
+}
+
+.message-line {
+    color: #fff0f8;
+    font-size: clamp(19px, 3.5vw, 27px);
+    line-height: 1.8;
+    min-height: 1.8em;
+    text-shadow: 0 0 15px #ff4da6;
+}
+
+.heart {
+    font-size: 35px;
+    margin-top: 25px;
+    opacity: 0;
+    transition: opacity 2s;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="intro" id="intro">
+    <h1>Duygu ❤️</h1>
+    <p>Bu gece gökyüzünde senin için bir sürprizim var...</p>
+    <button id="startButton">Sürprizi aç ✨</button>
+</div>
+
+<div class="final-message" id="finalMessage">
+
+    <h2 id="finalTitle"></h2>
+
+    <div class="message-line" id="line1"></div>
+    <div class="message-line" id="line2"></div>
+    <div class="message-line" id="line3"></div>
+
+    <div class="heart" id="heart">❤️</div>
+
+</div>
+
+<script src="./dist/GrandFireworks.min.js"></script>
+
+<script>
+
+// =================================
+// 1. HAVAİ FİŞEK AYARLARI
+// =================================
+
+const fireworks = new GrandFireworks({
+
+    baseStyle: "cinematic",
+
+    colorTheme: "default",
+
+    speedMultiplier: 1,
+
+    visuals: {
+        zoom: 1,
+        trails: true,
+        bloom: 1.25,
+        rocketExhaust: true,
+        explosionFlashes: true,
+        secondaryCrackle: true
+    },
+
+    show: {
+        intensity: 3.15,
+        maxRockets: 10,
+        maxParticles: 5000
+    },
+
+    performance: {
+        preset: "high",
+        adaptive: true
+    },
+    textFirework: {
+        exclusive: false
+    }
+});
+
+const sleep = ms =>
+    new Promise(resolve => setTimeout(resolve, ms));
+
+let started = false;
+
+
+// =================================
+// 2. HARF HARF MESAJ YAZDIRMA
+// =================================
+
+async function typeText(element, text, speed = 75) {
+
+    element.textContent = "";
+
+    for (const character of text) {
+
+        element.textContent += character;
+
+        await sleep(speed);
+
+    }
+}
+
+
+// =================================
+// 3. SÜRPRİZİ BAŞLAT
+// =================================
+
+document.getElementById("startButton")
+.addEventListener("click", async () => {
+
+    if (started) return;
+
+    started = true;
+
+    const intro = document.getElementById("intro");
+
+    intro.style.opacity = "0";
+
+    setTimeout(() => {
+        intro.style.display = "none";
+    }, 1500);
+
+
+    // Ses ve gösteri
+    fireworks.enableSound();
+
+    fireworks.start();
+
+
+    // İlk havai fişek gösterisi
+    await sleep(5000);
+
+
+    // =================================
+    // 4. DUYGU'NUN İSMİ VE MESAJLAR
+    // =================================
+
+    await fireworks.launchTextSequence([
+
+        {
+            text: "DUYGU",
+            overrides: {
+                colors: ["#FF69B4", "#FFD700", "#FFFFFF"]
+            }
+        },
+
+        {
+            text: "SENI COK SEVIYORUM",
+            overrides: {
+                colors: ["#FF69B4", "#FFD700", "#FFFFFF"]
+            }
+        },
+
+        {
+            text: "IYI KI HAYATIMDASIN",
+            overrides: {
+                colors: ["#DA70D6", "#FFFFFF", "#FF69B4"]
+            }
+        }
+
+    ], {
+
+        gap: 1800,
+        clearBetween: true
+
+    });
+
+
+    // =================================
+    // 5. BÜYÜK FİNAL
+    // =================================
+
+    await sleep(1500);
+
+    fireworks.launchFinale();
+
+
+    // Final gösterisini izle
+    await sleep(5000);
+
+
+    // =================================
+    // 6. SON MESAJ
+    // =================================
+
+    const finalMessage =
+        document.getElementById("finalMessage");
+
+    const finalTitle =
+        document.getElementById("finalTitle");
+
+    finalMessage.style.opacity = "1";
+
+    await sleep(1500);
+
+    await typeText(
+        finalTitle,
+        "Seni Çok Seviyorum ❤️",
+        100
+    );
+
+    await sleep(900);
+
+    await typeText(
+        document.getElementById("line1"),
+        "İyi ki hayatımdasın.",
+        75
+    );
+
+    await sleep(800);
+
+    await typeText(
+        document.getElementById("line2"),
+        "Zor günler geçirsek de",
+        75
+    );
+
+    await sleep(800);
+
+    await typeText(
+        document.getElementById("line3"),
+        "ben her zaman yanındayım.",
+        75
+    );
+
+    await sleep(500);
+
+    document.getElementById("heart").style.opacity = "1";
+
+});
+
+</script>
+
+</body>
+</html>
